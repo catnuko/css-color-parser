@@ -11,6 +11,7 @@ extern "C"
         unsigned char g;
         unsigned char b;
         float a;
+        int hasValue;
     };
     struct Color parse_color(const char *css_str);
 

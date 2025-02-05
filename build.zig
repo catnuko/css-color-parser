@@ -9,14 +9,26 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    configureLib(lib,b);
+    configureLib(lib, b);
     b.installArtifact(lib);
 
-    _ = b.addModule("root",.{
+    const mod = b.addModule("root", .{
         .root_source_file = b.path("src/root.zig"),
         .target = target,
         .optimize = optimize,
         .imports = &.{},
+    });
+    mod.addIncludePath(b.path("src"));
+    mod.addIncludePath(b.path("src/css-color-parser-cpp"));
+    mod.addCSourceFiles(.{
+        .files = &.{ "src/css-color-parser-cpp/csscolorparser.cpp", "src/parse_color.cpp" },
+        .flags = &.{
+            "-std=c++17",
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic",
+            "-Wno-unused-parameter",
+        },
     });
 
     const lib_unit_tests = b.addTest(.{
@@ -24,7 +36,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    configureLib(lib_unit_tests,b);
+    configureLib(lib_unit_tests, b);
 
     const run_lib_unit_tests = b.addRunArtifact(lib_unit_tests);
     const test_step = b.step("test", "Run unit tests");
@@ -35,10 +47,7 @@ fn configureLib(lib: *std.Build.Step.Compile, b: *std.Build) void {
     lib.addIncludePath(b.path("src"));
     lib.addIncludePath(b.path("src/css-color-parser-cpp"));
     lib.addCSourceFiles(.{
-        .files = &.{
-            "src/css-color-parser-cpp/csscolorparser.cpp",
-            "src/parse_color.cpp"
-        },
+        .files = &.{ "src/css-color-parser-cpp/csscolorparser.cpp", "src/parse_color.cpp" },
         .flags = &.{
             "-std=c++17",
             "-Wall",
