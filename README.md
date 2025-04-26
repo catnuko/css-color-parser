@@ -1,7 +1,15 @@
+# css-color-parser
 1. [css-color-parser-js](https://github.com/deanm/css-color-parser-js)
 2. [css-color-parser-cpp](https://github.com/mapbox/css-color-parser-cpp)
 3. [css-color-parser](https://github.com/catnuko/css-color-parser)
 
+## Install
+
+```bash
+zig fetch --save "https://github.com/catnuko/css-color-parser/archive/refs/tags/0.0.1.tar.gz"
+```
+
+## Usage
 zig parser for CSS color strings.
 ```zig
 const parse = @import("css-color-parser").parse;

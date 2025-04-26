@@ -1,6 +1,7 @@
 .{
-    .name = "css-color-parser",
-    .version = "0.0.0",
+    .name = .css_color_parser,
+    .version = "0.0.1",
+    .fingerprint = 0x229eadc10c48894e,
     .dependencies = .{
     },
     .paths = .{
